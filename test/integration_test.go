@@ -1,4 +1,4 @@
-package main
+package test
 
 import (
 	"bytes"
@@ -8,7 +8,6 @@ import (
 	"testing"
 	"todo/handlers"
 	"todo/store"
-	"todo/test"
 )
 
 func TestTasksHandlerCRUD_Integration(t *testing.T) {
@@ -28,10 +27,10 @@ func TestTasksHandlerCRUD_Integration(t *testing.T) {
 
 	res := w.Result()
 	defer res.Body.Close()
-	test.AssertEquals(t, res.StatusCode, 200)
+	AssertEquals(t, res.StatusCode, 200)
 
 	saved, _ := memStore.List()
-	test.AssertEquals(t, len(saved), 1)
+	AssertEquals(t, len(saved), 1)
 
 	// GET - find the task just added
 	req = httptest.NewRequest(http.MethodGet, "/api/tasks/1", nil)
@@ -40,12 +39,12 @@ func TestTasksHandlerCRUD_Integration(t *testing.T) {
 
 	res = w.Result()
 	defer res.Body.Close()
-	test.AssertEquals(t, res.StatusCode, 200)
+	AssertEquals(t, res.StatusCode, 200)
 
 	got, err := io.ReadAll(res.Body)
 
-	test.AssertNil(t, err)
-	test.AssertDeepEquals(t, got, newTaskJSON)
+	AssertNil(t, err)
+	AssertDeepEquals(t, got, newTaskJSON)
 
 	// UPDATE - complete task
 	req = httptest.NewRequest(http.MethodPut, "/api/tasks/1", bytes.NewBuffer(updatedTaskJSON))
@@ -54,12 +53,12 @@ func TestTasksHandlerCRUD_Integration(t *testing.T) {
 
 	res = w.Result()
 	defer res.Body.Close()
-	test.AssertEquals(t, res.StatusCode, 200)
+	AssertEquals(t, res.StatusCode, 200)
 
 	gotUpdatedTask, err := memStore.Get("1")
-	test.AssertNil(t, err)
+	AssertNil(t, err)
 
-	test.AssertTrue(t, gotUpdatedTask.Complete)
+	AssertTrue(t, gotUpdatedTask.Complete)
 
 	// DELETE - remove task
 	req = httptest.NewRequest(http.MethodDelete, "/api/tasks/1", nil)
@@ -68,8 +67,8 @@ func TestTasksHandlerCRUD_Integration(t *testing.T) {
 
 	res = w.Result()
 	defer res.Body.Close()
-	test.AssertEquals(t, res.StatusCode, 200)
+	AssertEquals(t, res.StatusCode, 200)
 
 	saved, _ = memStore.List()
-	test.AssertEquals(t, len(saved), 0)
+	AssertEquals(t, len(saved), 0)
 }
