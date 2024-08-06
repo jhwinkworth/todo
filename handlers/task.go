@@ -79,7 +79,7 @@ func (h *TasksHandler) GetTasks(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *TasksHandler) GetTaskByID(w http.ResponseWriter, r *http.Request) {
-	// Extract the resource ID/slug using a regex
+	// Extract the resource ID using a regex
 	matches := TaskReWithID.FindStringSubmatch(r.URL.Path)
 
 	// Expect matches to be length >= 2 (full string + 1 matching group)
