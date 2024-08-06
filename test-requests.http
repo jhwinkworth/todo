@@ -1,0 +1,30 @@
+### POST request for new task
+POST http://localhost:8080/api/tasks/
+Content-Type: application/json
+
+{
+  "id": "1",
+  "description": "to do",
+  "complete": false
+}
+
+### GET request by ID
+GET http://localhost:8080/api/tasks/1
+Accept: application/json
+
+### GET request to list all tasks
+GET http://localhost:8080/api/tasks/
+Accept: application/json
+
+### PUT request to update task by ID
+PUT http://localhost:8080/api/tasks/1
+Content-Type: application/json
+
+{
+  "id": "1",
+  "description": "to do",
+  "complete": true
+}
+
+### PUT request to delete task by ID
+DELETE  http://localhost:8080/api/tasks/1
